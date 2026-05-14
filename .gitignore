@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PuriPy traces (don't commit recorded traces)
+*.puripy
+*.trace
+
+# Build
+build/
+dist/
+
+# API keys — never commit these
+.env
+.env.*
+*.key
+secrets.py
+config.local.py

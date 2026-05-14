@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "puripy"
+version = "0.0.1"
+description = "Time-travel debugging for Python"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Abishek Puri", email = "abishekpuri77@gmail.com"}
+]
+keywords = ["debugger", "time-travel", "tracing", "python"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Debuggers",
+]
+dependencies = [
+    "click>=8.0",
+    "textual>=0.40",
+    "msgpack>=1.0",
+]
+
+[project.optional-dependencies]
+ai = ["google-genai>=1.0"]
+dev = ["pytest>=7.0", "ruff>=0.1", "mypy>=1.0"]
+
+[project.scripts]
+puripy = "puripy.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
