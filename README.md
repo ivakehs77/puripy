@@ -36,6 +36,40 @@ puripy> why is grade always F?
 
 ---
 
+## Quick Start
+
+```bash
+# 1. Install
+git clone https://github.com/ivakehs77/puripy
+cd puripy
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[ai]"
+
+# 2. Record the included demo script
+puripy record examples/demo.py
+
+# 3. Replay it interactively
+puripy replay demo.trace
+```
+
+Once inside the REPL:
+```
+puripy> goto line 40       # jump to the buggy line
+puripy> step               # step into calculate_grade()
+puripy> show percentage    # see 9.2 instead of 92.0
+puripy> out                # step back out to main
+puripy> find grade F       # find every frame where grade is wrong
+puripy> quit
+```
+
+With an AI key ([get one free](https://aistudio.google.com)):
+```bash
+export PURIPY_GEMINI_API_KEY=your-key
+puripy ask demo.trace "why is grade always F?"
+```
+
+---
+
 ## How it works
 
 Python exposes `sys.settrace` — a hook that fires before every line executes, on every function call, and on every return. PuriPy installs a tracer that snapshots `frame.f_locals` at each event and writes it to a compressed binary trace file.
