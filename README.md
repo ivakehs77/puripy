@@ -34,6 +34,8 @@ puripy> why is grade always F?
       percentage = score / total * 100
 ```
 
+![PuriPy demo](demo.gif)
+
 ---
 
 ## Quick Start
