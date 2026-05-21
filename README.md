@@ -106,7 +106,7 @@ Three things make this non-trivial:
 ## Install
 
 ```bash
-git clone https://github.com/abishekpuri/puripy
+git clone https://github.com/ivakehs77/puripy
 cd puripy
 python -m venv .venv && source .venv/bin/activate
 pip install -e .          # core
