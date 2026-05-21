@@ -24,18 +24,15 @@ def _source_context(filename: str, lineno: int, context: int = 2) -> str:
     return "\n".join(lines)
 
 
-_BORING_TYPES = ("function", "builtin_function_or_method", "module", "type", "classobj")
+_BORING_REPR_PREFIXES = ("<function ", "<built-in function ", "<module ", "<class ")
+
 
 def _is_boring(raw_val) -> bool:
     """True for function/module/class objects that clutter the locals display."""
     if not isinstance(raw_val, dict):
         return False
-    # Pickled objects store __type__ explicitly.
-    if raw_val.get("__type__", "") in _BORING_TYPES:
-        return True
-    # repr fallback: "function: <function foo at 0x...>"
     r = raw_val.get("__repr__", "")
-    return any(r.startswith(t + ":") for t in _BORING_TYPES)
+    return any(r.startswith(p) for p in _BORING_REPR_PREFIXES)
 
 
 def _print_state(r: Replayer) -> None:

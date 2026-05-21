@@ -5,9 +5,15 @@ import copy
 import zlib
 import pickle
 import base64
+import types as _types
 from typing import Any, Optional
 
 import msgpack
+
+_BORING_TYPES = (
+    _types.FunctionType, _types.MethodType, _types.BuiltinFunctionType,
+    _types.BuiltinMethodType, _types.ModuleType, type,
+)
 
 
 def _serialize_value(val: Any) -> Any:
@@ -22,6 +28,13 @@ def _serialize_value(val: Any) -> Any:
         return [_serialize_value(v) for v in val]
     if isinstance(val, dict):
         return {str(k): _serialize_value(v) for k, v in val.items()}
+    # Store functions/modules/types as repr — pickling them fails at replay time
+    # because the script isn't importable via its original module path.
+    if isinstance(val, _BORING_TYPES):
+        try:
+            return {"__repr__": repr(val)[:200]}
+        except Exception:
+            return {"__repr__": f"<{type(val).__name__}: unserializable>"}
     try:
         return {"__pickle__": base64.b64encode(pickle.dumps(val)).decode("ascii")}
     except Exception:
