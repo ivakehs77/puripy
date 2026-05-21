@@ -35,6 +35,10 @@ Type "step"
 Enter
 Sleep 900ms
 
+Type "step"
+Enter
+Sleep 900ms
+
 Type "show percentage"
 Enter
 Sleep 900ms
