@@ -208,6 +208,12 @@ The trace format is `zlib(msgpack({"version": 2, "frames": [...]}))`. Each frame
 
 ---
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=ivakehs77/puripy&type=Date)](https://star-history.com/#ivakehs77/puripy&Date)
+
+---
+
 ## Inspiration
 
 - [rr](https://rr-project.org/) — record/replay for C/C++
