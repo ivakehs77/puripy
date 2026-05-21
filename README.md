@@ -78,7 +78,7 @@ Three things make this non-trivial:
 
 **Delta encoding.** Storing full variable snapshots every line gets expensive fast. PuriPy instead stores the full snapshot on `call` events (function entry) and only the *changed* variables on subsequent `line` events. The replayer reconstructs full state by replaying deltas forward from the nearest call frame. A function with 10 locals that mutates 1 variable per line goes from 500 stored entries to ~60.
 
-**Serialization pipeline.** `f_locals` can contain anything — file handles, custom classes, lambdas. PuriPy tries `pickle` first (storing type metadata alongside so the replayer can filter without deserializing), falls back to `repr()` for unpicklable objects, and uses deep copy at capture time so list mutations are correctly recorded.
+**Serialization pipeline.** `f_locals` can contain anything — file handles, custom classes, lambdas. Functions, modules, and types are stored as their `repr()` string immediately (pickling them fails at replay time since the script isn't importable by its original module path). Everything else goes through `pickle`, falling back to `repr()` if that fails. Deep copy at capture time ensures list mutations are recorded correctly rather than all pointing to the final state.
 
 **O(1) navigation.** The replayer pre-computes a line index and call-depth table at load time so `goto line 47` and `step_over` are instant regardless of trace size.
 
@@ -112,8 +112,10 @@ puripy record script.py -- arg1 arg2    # pass args to the script
 
 ```bash
 puripy replay script.trace        # interactive REPL
-puripy replay script.trace --tui  # Textual TUI
+puripy replay script.trace --tui  # Textual TUI (source + variables panels)
 ```
+
+In the TUI: `j`/`→` step forward, `k`/`←` step back, `n` step over, `u` step out, `?` open the AI query panel, `q` quit.
 
 #### REPL commands
 
@@ -169,7 +171,7 @@ src/puripy/
 ├── recorder.py   sys.settrace hook, delta encoder, msgpack+zlib writer
 ├── replayer.py   trace loader, delta reconstruction, O(1) navigation
 ├── cli.py        Click commands: record / replay / ask / stats
-├── tui.py        Textual TUI (two-panel: source + variables)
+├── tui.py        Textual TUI (source + variables panels, inline AI query)
 └── ai.py         context extraction from trace → Gemini prompt → answer
 ```
 
