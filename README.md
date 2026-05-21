@@ -119,6 +119,8 @@ puripy replay script.trace --tui  # Textual TUI (source + variables panels)
 
 In the TUI: `j`/`→` step forward, `k`/`←` step back, `n` step over, `u` step out, `?` open the AI query panel, `q` quit.
 
+![PuriPy TUI demo](demo_tui.gif)
+
 #### REPL commands
 
 | Command | What it does |
