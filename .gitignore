@@ -24,7 +24,7 @@ Thumbs.db
 build/
 dist/
 
-# API keys — never commit these
+# API keys 
 .env
 .env.*
 *.key
