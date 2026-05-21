@@ -72,6 +72,23 @@ puripy ask demo.trace "why is grade always F?"
 
 ---
 
+## PuriPy vs pdb vs print debugging
+
+| | `print()` | `pdb` | **PuriPy** |
+|---|---|---|---|
+| Go backwards | No | No | **Yes** |
+| Re-run to inspect a different line | Yes | Yes | **No — everything already recorded** |
+| Interrupts your program | No | Yes | **No** |
+| See variable history across the whole run | No | No | **Yes** |
+| Jump to any line instantly | No | No | **Yes** |
+| Step over / step out | No | Yes | **Yes** |
+| AI explains the bug | No | No | **Yes** |
+| Works on already-finished runs | No | No | **Yes** |
+
+The core difference: `pdb` is a *live* debugger — you set breakpoints before running and step forward from there. If you miss something, you restart. PuriPy *records first, asks questions later* — run your script once, then scrub the full execution timeline in any direction without touching the code.
+
+---
+
 ## How it works
 
 Python exposes `sys.settrace` — a hook that fires before every line executes, on every function call, and on every return. PuriPy installs a tracer that snapshots `frame.f_locals` at each event and writes it to a compressed binary trace file.
